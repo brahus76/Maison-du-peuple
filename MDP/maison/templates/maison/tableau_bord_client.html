@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block contenu %}
+<h4 class="mb-4">
+    Tableau de bord – {{ mois }}
+</h4>
+<div class="row">
+
+    <div class="col-md-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h6>📅 Événements du mois</h6>
+                <h3>{{ total_evenements }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h6>🎟 Tickets achetés</h6>
+                <h3>{{ total_tickets }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h6>🏢 Réservations</h6>
+                <h3>{{ total_reservations }}</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card text-center shadow-sm">
+            <div class="card-body">
+                <h6>💰 Dépense totale</h6>
+                <h3>{{ total_depense }} FCFA</h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row mt-5">
+
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h6 class="text-center">📊 Activités du mois</h6>
+                <canvas id="activityChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card shadow-sm text-center">
+            <div class="card-body">
+                <h6>💰 Total dépensé ce mois</h6>
+                <h2 class="text-success mt-4">
+                    {{ total_depense }} FCFA
+                </h2>
+            </div>
+        </div>
+    </div>
+
+</div>
+<canvas id="activityChart"></canvas>
+<script>
+    window.totalEvenements = {{ total_evenements }};
+    window.totalTickets = {{ total_tickets }};
+    window.totalReservations = {{ total_reservations }};
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/carte.js' %}"></script>
+
+{% endblock %}
+
+

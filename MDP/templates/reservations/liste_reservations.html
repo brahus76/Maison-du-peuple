@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block contenu %}
+<div class="container mt-4">
+    <h2>Mes Réservations</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Espace</th>
+                <th>Statut</th>
+                <th>Début</th>
+                <th>Fin</th>
+                <th>Prix Total</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for res in reservations %}
+            <tr>
+                <td>{{ res.espace }}</td>
+                <td>{{ res.get_statut_display }}</td>
+                <td>{{ res.date_debut }}</td>
+                <td>{{ res.date_fin }}</td>
+                <td>{{ res.montant_total }} FCFA</td>
+
+            <!-- ✅ ACTION -->
+                <td class="text-center">
+
+                    {% if res.statut == 'paye' %}
+                        {% if res.facture_telechargee %}
+                            <span class="badge bg-success">
+                                ✔ Facture déjà téléchargée
+                            </span>
+                        {% else %}
+                            <a href="{% url 'generer_facture_pdf' res.id %}"
+                                class="btn btn-success btn-sm">
+                                <i class="fas fa-file-pdf"></i> Télécharger Facture
+                            </a>
+                        {% endif %}
+
+                    {% elif res.statut == 'confirme' %}
+                        <a href="{% url 'payer_reservation' res.id %}"
+                        class="btn btn-primary btn-sm">
+                            Payer
+                        </a>
+
+                    {% else %}
+                        <span class="badge bg-secondary">
+                            En attente
+                        </span>
+                    {% endif %}
+
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    Vous n'avez pas encore effectué de réservation.
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

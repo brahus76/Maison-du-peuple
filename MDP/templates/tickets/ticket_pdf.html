@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        @page { size: A4; margin: 2cm; }
+        body { font-family: Helvetica, Arial, sans-serif; color: #333; }
+        .header { text-align: center; border-bottom: 2px solid #000; padding-bottom: 10px; }
+        .invoice-box { margin-top: 20px; }
+        .details-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .details-table th { background: #f2f2f2; text-align: left; padding: 8px; border: 1px solid #ddd; }
+        .details-table td { padding: 8px; border: 1px solid #ddd; }
+        .total { text-align: right; margin-top: 20px; font-size: 18px; font-weight: bold; }
+        .footer { position: fixed; bottom: 0; text-align: center; font-size: 10px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>MAISON DU PEUPLE</h1>
+        <p>Service d'achat de ticket</p>
+    </div>
+
+    <div class="invoice-box">
+        <p><strong>Ticket N° :</strong> {{ ticket.id }}</p>
+        <p><strong>Date de paiement :</strong> {% now "d/m/Y" %}</p>
+        <p><strong>Client :</strong> {{ ticket.client.username }}</p>
+    </div>
+
+    <table class="details-table">
+        <thead>
+            <tr>
+                <th>Nom de l'évènement</th>
+                <th>Statut</th>
+                <th>Prix</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ ticket.evenement.titre_stockage }}</td>
+                
+                <td>{{ ticket.choix_tarif.categorie }}</td>
+                <td>{{ ticket.choix_tarif.prix }} FCFA</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="total">
+        Montant Total Payé : {{ reservation.montant_total }} FCFA
+    </div>
+
+    <div class="footer">
+        <p>Merci pour votre confiance. Cette facture est générée automatiquement.</p>
+    </div>
+</body>
+</html>

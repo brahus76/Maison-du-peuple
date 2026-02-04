@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block contenu %}
+<div class="container mt-5">
+
+    <!-- TITRE -->
+    <div class="text-center mb-4">
+        <h2 class="fw-bold">🎟️ Acheter un ticket</h2>
+        <p class="text-muted">
+            Événement : <strong>{{ evenement.nom_titre }}</strong>
+        </p>
+    </div>
+
+    <!-- INFOS ÉVÉNEMENT -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title">{{ evenement.nom_titre }}</h5>
+
+            <p class="card-text">
+                <strong>Date :</strong>
+                {{ evenement.date_debut|date:"d/m/Y H:i" }}
+                →
+                {{ evenement.date_fin|date:"d/m/Y H:i" }}
+            </p>
+
+            <p class="card-text">
+                <strong>Places restantes :</strong>
+                <span class="badge bg-success">
+                    {{ evenement.nombre_de_places }}
+                </span>
+            </p>
+
+            {% if evenement.description %}
+                <p class="card-text">{{ evenement.description }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- MESSAGE D'ERREUR -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <!-- FORMULAIRE -->
+    <div class="card shadow">
+        <div class="card-body">
+
+            <form method="post">
+                {% csrf_token %}
+
+                <!-- CHOIX DU TARIF -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">
+                        {{ form.choix_tarif.label }}
+                    </label>
+                    {{ form.choix_tarif }}
+
+                    {% if form.choix_tarif.errors %}
+                        <div class="text-danger mt-1">
+                            {{ form.choix_tarif.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- BOUTON -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        💳 Confirmer l’achat
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- RETOUR -->
+    <div class="text-center mt-3">
+        <a href="{% url 'evenements' %}" class="text-decoration-none">
+            ← Retour aux événements
+        </a>
+    </div>
+
+</div>
+{% endblock %}

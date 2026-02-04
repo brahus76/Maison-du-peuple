@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block contenu %}
+    {% if ticket.est_paye %}
+        <a href="{% url 'telecharger_ticket' ticket.id %}" class="btn btn-success">⬇️ Télécharger mon ticket</a>
+    {% else %}
+        <p class="text-warning">
+            Paiement en attente...
+        </p>
+    {% endif %}
+{% endblock contenu %}

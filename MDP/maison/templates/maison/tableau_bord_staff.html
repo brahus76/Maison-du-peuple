@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centre de Controle</title>
+</head>
+<body>
+    <header>
+        <div class="card shadow-sm border-0 mb-4" style="background-color: #f8f9fa;">
+            <div class="card-body d-flex justify-content-between align-items-center">
+                <div>
+                    {% if user.is_authenticated %}
+                        <h2 class="h4 mb-1">Bienvenue, {{ request.user.username }} !</h2>
+                    {% endif %}
+                    <p class="text-muted mb-0"> | 
+                        <span class="badge {% if request.user.is_superuser %}badge-danger{% else %}badge-primary{% endif %}">
+                            {% if user.is_staff %}
+                                <h2>{{ request.user }}</h2>
+                            {% endif %}
+                        </span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <h3 class="mb-4 mt-5">Tickets en attente de confirmation de paiement</h3>
+
+    <div class="table-responsive">
+        <table class="table table-hover bg-white shadow-sm">
+            <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Client</th>
+                    <th>Événement</th>
+                    <th>Tarif</th>
+                    <th>Montant</th>
+                    <th>Date d'achat</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for ticket in tickets_en_attente %}
+                <tr>
+                    <td>#{{ ticket.id }}</td>
+                    <td>{{ ticket.client.username }}</td>
+                    <td>{{ ticket.evenement.titre_stockage }}</td>
+                    <td>{{ ticket.choix_tarif.get_categorie_display }}</td>
+                    <td><strong>{{ ticket.montant }} FCFA</strong></td>
+                    <td>{{ ticket.date_achat|date:"d/m/Y H:i" }}</td>
+
+                    <td class="text-center">
+                        <a href="{% url 'confirmer_ticket' ticket.id %}"class="btn btn-success btn-sm">✅ Confirmer paiement</a>
+                    </td>
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-4">
+                        Aucun ticket en attente pour le moment.
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <h3 class="mb-3">📌 Réservations à confirmer</h3>
+
+    <div class="table-responsive mb-5">
+        <table class="table table-hover shadow-sm bg-white">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Client</th>
+                    <th>Espace</th>
+                    <th>Date debut reservation</th>
+                    <th>Date fin reservation</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            {% for reservation in reservations_en_attente %}
+                <tr>
+                    <td>#{{ reservation.id }}</td>
+                    <td>{{ reservation.client.username }}</td>
+                    <td>{{ reservation.espace.nom }}</td>
+                    <td>{{ reservation.date_debut|date:"d/m/Y H:i" }}</td>
+                    <td>{{ reservation.date_fin|date:"d/m/Y H:i" }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'confirmer_reservation' reservation.id %}"
+                           class="btn btn-sm btn-primary">
+                             Confirmer
+                        </a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-3">
+                        Aucune réservation en attente.
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+
+
+    
+</body>
+</html>

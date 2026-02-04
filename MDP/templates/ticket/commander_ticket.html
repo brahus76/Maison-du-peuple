@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    
+    <div class="mb-3">
+        {{ form.choix_tarif.label_tag }}
+        {{ form.choix_tarif }}
+        {% if form.choix_tarif.errors %}
+            <div class="text-danger">{{ form.choix_tarif.errors }}</div>
+        {% endif %}
+    </div>
+
+    <button type="submit" class="btn btn-success w-100">
+        Valider l'achat de mon ticket
+    </button>
+</form>
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load static %}
+{% block contenu %}
+<div id="heroCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+
+    <div class="carousel-inner">
+
+        <div class="carousel-item active">
+            <img src="{% static 'images/m1.jpg' %}" class="d-block w-100" alt="Slide 1">
+        </div>
+        
+        <div class="carousel-item">
+            <img src="{% static 'images/m2.jpg' %}" class="d-block w-100" alt="Slide 2">
+        </div>
+
+        {% if user.is_authenticated %}
+            <div class="carousel-caption custom-caption">
+                <h1 class="welcome-text">
+                    Bienvenue à la Maison du Peuple,
+                    <span>{{ request.user.username }}</span>
+                </h1>
+            </div>
+        {% else  %}
+            <div class="carousel-caption custom-caption">
+                <h1 class="welcome-text">
+                    Bienvenue à la Maison du Peuple, chers visiteur
+                </h1>
+            </div>
+        {% endif %}
+
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+
+</div>
+
+
+
+<div class="row g-4">
+<h2 class="mb-4">
+    <span class="border-start border-4 border-warning ps-3">
+        À l'affiche actuellement
+    </span>
+</h2>
+
+<div class="row g-4">
+
+    {% if culturel %}
+    <div class="col-md-3">
+        <div class="card shadow-sm h-100">
+            <img src="{{ culturel.image.url }}" class="card-img-top" alt="{{ culturel.nom_titre }}">
+            <div class="card-body">
+                <span class="badge bg-warning mb-2">Culturel</span>
+                <h5>{{ culturel.nom_titre }}</h5>
+            </div>
+            <div>
+                <p> <a href="{% url 'evenements' %}">Voir plus➡️</a></p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if politique %}
+    <div class="col-md-3">
+        <div class="card shadow-sm h-100">
+            {% if politique.image %}
+                <img src="{{ politique.image.url }}" class="card-img-top" alt="{{ politique.nom_titre }}">
+            {% else %}
+                <img src="{% static 'images/default.jpg' %}" class="card-img-top" alt="Image par défaut">
+            {% endif %}
+
+            <div class="card-body">
+                <span class="badge bg-primary mb-2">Politique</span>
+                <h5>{{ politique.nom_titre }}</h5>
+            </div>
+            <div>
+                <p> <a href="{% url 'evenements' %}">Voir plus➡️</a></p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if economique %}
+    <div class="col-md-3">
+        <div class="card shadow-sm h-100">
+            {% if politique.image %}
+                <img src="{{  economique.image.url }}" class="card-img-top" alt="{{  economique.image.url }}">
+            {% else %}
+                <img src="{% static 'images/default.jpg' %}" class="card-img-top" alt="Image par défaut">
+            {% endif %}
+            <div class="card-body">
+                <span class="badge bg-success mb-2">Économique</span>
+                <h5>{{ economique.nom_titre }}</h5>
+            </div>
+             <div>
+                <p> <a href="{% url 'evenements' %}">Voir plus➡️</a></p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if social %}
+    <div class="col-md-3">
+        <div class="card shadow-sm h-100">
+            <img src="{{ social.image.url }}" class="card-img-top" alt="{{ social.nom_titre }}">
+            <div class="card-body">
+                <span class="badge bg-danger mb-2">Social</span>
+                <h5>{{ social.nom_titre }}</h5>
+            </div>
+            <div>
+                <p> <a href="{% url 'evenements' %}">Voir plus➡️</a></p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+
+{% endblock contenu %}

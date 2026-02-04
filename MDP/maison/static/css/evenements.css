@@ -1,0 +1,63 @@
+/* Cartes événements */
+.event-card {
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: #fff;
+}
+
+.event-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Image */
+.event-card img {
+    height: 220px;
+    object-fit: cover;
+}
+
+/* Badge date */
+.badge-date {
+    background-color: #ff9800;
+    color: #fff;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 8px;
+}
+
+/* Type d'événement */
+.badge-type {
+    background: #fff3e0;
+    color: #ff9800;
+    font-weight: 600;
+}
+
+/* Bouton ticket */
+.btn-ticket {
+    border-radius: 30px;
+    border: 2px solid #ff9800;
+    color: #ff9800;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-ticket:hover {
+    background-color: #ff9800;
+    color: #fff;
+}
+
+/* Badge statut */
+.badge-en-cours {
+    background-color: #2e7d32;
+}
+
+.badge-a-venir {
+    background-color: #1565c0;
+}
+
+/* Select filtre artiste */
+#filtre-artiste {
+    border-radius: 30px;
+    padding: 10px 15px;
+}

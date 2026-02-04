@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block contenu %}
+<div class="container mt-4">
+    <h2>Mes Réservations</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <table class="table table-striped mt-4">
+        <thead class="table-dark">
+            <tr>
+                <th>Evènements</th>
+                <th>Statut</th>
+                <th>Date d'achat</th>
+                <th>Categorie</th>
+                <th>Prix d'achat</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tick in tickets %}
+            <tr>
+                <td>{{ tick.evenement.nom_titre }}</td>
+                <td>{{ tick.get_statut_display }}</td> 
+                <td>{{ tick.date_achat|date:"d/m/Y H:i" }}</td>
+                <td>{{ tick.choix_tarif.categorie }} </td>
+                <td>{{ tick.choix_tarif.prix }} FCFA</td>
+
+                
+                <td>
+                    {% if user.is_staff and res.statut == 'attente' %}
+                        <a href="{% url 'valider_ticket' ticket.id %}" class="btn btn-sm btn-success">Confirmer</a>
+                    {% endif %}
+
+                    {% if res.client == user and res.statut == 'attente' %}
+                        <a href="{% url 'annuler_ticket' ticket.id %}" class="btn btn-sm btn-danger">Annuler</a>
+                    {% endif %}
+                </td>
+
+            <tr>
+                <td>
+                    {% if res.statut == 'paye' %}
+                        <a href="{% url 'payer_ticket' ticket.id %}" class="btn btn-primary btn-sm">Payer</a>
+                    {% elif res.statut == 'paye' %}
+                        <a href="{% url 'generer_ticket_pdf' ticket.id %}" class="btn btn-success btn-sm">
+                            <i class="fas fa-file-pdf"></i> Télécharger le ticket
+                        </a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if ticket.ticket_telecharge %}
+                        <span class="badge bg-success">
+                            ✔ Ticket déjà téléchargé
+                        </span>
+                    {% else %}
+                        {% if ticket.id %}
+                            <a href="{% url 'telecharger_ticket' ticket.id %}" class="btn btn-success btn-sm">
+                                <i class="fas fa-file-pdf"></i> Télécharger Ticket
+                            </a>
+                        {% else %}
+                            <span class="badge bg-secondary">
+                                Ticket indisponible
+                            </span>
+                        {% endif %}
+
+                    {% endif %}   
+    
+                </td>
+            </tr>
+        
+        {% endfor %}
+
+            
+        </tbody>
+    </table>
+    {% for ticket in tickets %}
+        <a href="{% url 'acheter_ticket' evenement_id=ticket.evenement.id %}"
+            class="btn btn-outline-primary">
+            Acheter un autre ticket
+        </a>
+    {% endfor %}
+
+
+</div>
+{% endblock %}

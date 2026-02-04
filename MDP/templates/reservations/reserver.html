@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block contenu %}
+<div class="container">
+    <h2>Réserver un espace</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                {{ form.errors }}
+            </div>
+        {% endif %}
+        
+        {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary">Vérifier et Réserver</button>
+    </form>
+</div>
+{% endblock %}
